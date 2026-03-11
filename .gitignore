@@ -1,5 +1,36 @@
-__pycache__/
-*.py[cod]
-db.sqlite3
+# Variables de entorno — nunca al repo
 .env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+
+# Docker volumes
 postgres_data/
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+desktop.ini
+```
+
+---
+
+## Paso 2 — Estrategia de ramas
+
+Te recomiendo el flujo **Git Flow simplificado** — es el estándar en equipos pequeños:
+```
+main          ← código estable, funcional, listo para entregar
+    └── dev   ← rama de integración, aquí se mezcla todo
+         ├── feature/tu-nombre    ← tus cambios
+         └── feature/marco        ← cambios de Marco

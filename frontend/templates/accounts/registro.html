@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Academy — Registro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'DM Sans', sans-serif; }
+
+        body {
+            background-color: #f0f0ec;
+            background-image: radial-gradient(circle at 20% 20%, #d4e8c2 0%, transparent 50%),
+                              radial-gradient(circle at 80% 80%, #c8ddb0 0%, transparent 50%);
+        }
+
+        h1 { font-family: 'Playfair Display', serif; }
+
+        .card {
+            background: #ffffff;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+            border-radius: 16px;
+        }
+
+        .input-field {
+            width: 100%;
+            border: 1.5px solid #e2e8da;
+            border-radius: 10px;
+            padding: 14px 44px 14px 16px;
+            font-size: 15px;
+            color: #2d3a1e;
+            background: #fafafa;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-field::placeholder { color: #a0a89a; }
+
+        .input-field:focus {
+            border-color: #2d7a22;
+            box-shadow: 0 0 0 3px rgba(45,122,34,0.1);
+            background: #fff;
+        }
+
+        /* Inputs agrupados sin espacio entre ellos */
+        .input-group .input-field {
+            border-radius: 0;
+            border-bottom: none;
+        }
+        .input-group .input-wrapper:first-child .input-field {
+            border-radius: 10px 10px 0 0;
+        }
+        .input-group .input-wrapper:last-child .input-field {
+            border-radius: 0 0 10px 10px;
+            border-bottom: 1.5px solid #e2e8da;
+        }
+        .input-group .input-wrapper:last-child .input-field:focus {
+            border-color: #2d7a22;
+        }
+
+        .input-wrapper { position: relative; }
+
+        .input-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0a89a;
+            pointer-events: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: #1e6b17;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 14px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(30,107,23,0.3);
+        }
+
+        .btn-primary:hover {
+            background: #185c12;
+            box-shadow: 0 6px 20px rgba(30,107,23,0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:active { transform: translateY(0); }
+
+        .btn-google {
+            width: 100%;
+            background: #1e6b17;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 13px;
+            border-radius: 50px;
+            border: none;
+            cursor: not-allowed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            opacity: 0.7;
+            box-shadow: 0 4px 14px rgba(30,107,23,0.25);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #a0a89a;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8da;
+        }
+
+        .error-msg {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .field-error {
+            color: #dc2626;
+            font-size: 12px;
+            margin-top: 4px;
+            padding-left: 4px;
+        }
+
+        .topbar {
+            background: #2d3a1e;
+            color: #a8c090;
+            font-size: 13px;
+            padding: 8px 20px;
+            letter-spacing: 0.02em;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-wrap  { animation: fadeUp 0.5s ease both; }
+        .title-wrap { animation: fadeUp 0.5s ease 0.1s both; }
+        .card       { animation: fadeUp 0.5s ease 0.2s both; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Barra superior -->
+    <div class="topbar">Sign up</div>
+
+    <div class="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+
+        <!-- Logo búho SVG -->
+        <div class="logo-wrap flex flex-col items-center mb-6">
+            <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cuerpo del búho -->
+                <ellipse cx="50" cy="62" rx="26" ry="28" fill="#4a8c3f" opacity="0.15"/>
+                <ellipse cx="50" cy="62" rx="22" ry="24" fill="#2d7a22" opacity="0.2"/>
+                <!-- Libro base -->
+                <rect x="28" y="72" width="44" height="8" rx="3" fill="#2d7a22" opacity="0.8"/>
+                <rect x="30" y="68" width="40" height="6" rx="2" fill="#1e6b17"/>
+                <!-- Cuerpo principal -->
+                <ellipse cx="50" cy="54" rx="20" ry="22" fill="#2d7a22"/>
+                <!-- Pecho claro -->
+                <ellipse cx="50" cy="60" rx="12" ry="14" fill="#4aaa3f" opacity="0.5"/>
+                <!-- Orejas/plumas -->
+                <polygon points="35,36 38,24 44,36" fill="#1e6b17"/>
+                <polygon points="56,36 62,24 65,36" fill="#1e6b17"/>
+                <polygon points="37,36 40,27 43,36" fill="#2d7a22"/>
+                <polygon points="57,36 60,27 63,36" fill="#2d7a22"/>
+                <!-- Ojos -->
+                <circle cx="41" cy="48" r="7" fill="white"/>
+                <circle cx="59" cy="48" r="7" fill="white"/>
+                <circle cx="41" cy="48" r="4" fill="#1e6b17"/>
+                <circle cx="59" cy="48" r="4" fill="#1e6b17"/>
+                <circle cx="42.5" cy="46.5" r="1.5" fill="white"/>
+                <circle cx="60.5" cy="46.5" r="1.5" fill="white"/>
+                <!-- Pico -->
+                <polygon points="47,54 53,54 50,58" fill="#f5a623"/>
+                <!-- Alas -->
+                <ellipse cx="32" cy="60" rx="8" ry="14" fill="#1e6b17" transform="rotate(-10 32 60)"/>
+                <ellipse cx="68" cy="60" rx="8" ry="14" fill="#1e6b17" transform="rotate(10 68 60)"/>
+            </svg>
+            <span style="color:#2d7a22; font-weight:700; font-size:13px; letter-spacing:0.15em; margin-top:6px;">MY ACADEMY</span>
+        </div>
+
+        <!-- Título -->
+        <div class="title-wrap text-center mb-8">
+            <h1 style="color:#1e6b17; font-size:2.2rem;">Bienvenido a My Academy</h1>
+        </div>
+
+        <!-- Card -->
+        <div class="card w-full max-w-lg px-10 py-10">
+
+            <h2 style="color:#1e6b17; font-weight:700; font-size:1.3rem; margin-bottom:28px;">
+                Regístrate
+            </h2>
+
+            <!-- Errores generales -->
+            {% if form.non_field_errors %}
+                <div class="error-msg">{{ form.non_field_errors.0 }}</div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'registro' %}">
+                {% csrf_token %}
+
+                <!-- Grupo de inputs agrupados visualmente como en Figma -->
+                <div class="input-group mb-8">
+
+                    <!-- Correo Electrónico -->
+                    <div class="input-wrapper">
+                        <input
+                            type="email"
+                            name="email"
+                            class="input-field"
+                            placeholder="Correo Electronico"
+                            value="{{ form.email.value|default:'' }}"
+                            required
+                            autocomplete="email"
+                        >
+                        <span class="input-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/>
+                            </svg>
+                        </span>
+                        {% if form.email.errors %}
+                            <p class="field-error">{{ form.email.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Matrícula -->
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            name="matricula"
+                            class="input-field"
+                            placeholder="Matricula"
+                            value="{{ form.matricula.value|default:'' }}"
+                            required
+                            autocomplete="off"
+                        >
+                        <span class="input-icon">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                            </svg>
+                        </span>
+                        {% if form.matricula.errors %}
+                            <p class="field-error">{{ form.matricula.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            name="password1"
+                            class="input-field"
+                            placeholder="Contraseña"
+                            required
+                            autocomplete="new-password"
+                            id="passwordField"
+                        >
+                        <span class="input-icon" style="cursor:pointer;" onclick="togglePassword()">
+                            <svg id="lockIcon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                        </span>
+                        {% if form.password1.errors %}
+                            <p class="field-error">{{ form.password1.errors.0 }}</p>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <!-- Campo oculto para confirmar password — mismo valor, validación en backend -->
+                <input type="hidden" name="password2" id="password2Field">
+
+                <!-- Botón Siguiente -->
+                <button type="submit" class="btn-primary mb-5">
+                    Siguiente
+                </button>
+
+                <!-- Separador -->
+                <div class="divider mb-5">O</div>
+
+                <!-- Botón Google deshabilitado -->
+                <button type="button" class="btn-google" disabled>
+                    <svg width="20" height="20" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    Registrate con Google
+                </button>
+
+            </form>
+
+            <!-- Link a login -->
+            <p style="text-align:center; color:#a0a89a; font-size:13px; margin-top:24px;">
+                ¿Ya tienes cuenta?
+                <a href="{% url 'login' %}" style="color:#1e6b17; font-weight:600; text-decoration:none;">Inicia sesión</a>
+            </p>
+
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const field = document.getElementById('passwordField');
+            field.type = field.type === 'password' ? 'text' : 'password';
+        }
+
+        // Sincroniza password2 con password1 antes de enviar
+        // El diseño de Figma no muestra campo de confirmación, lo manejamos así
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('password2Field').value =
+                document.getElementById('passwordField').value;
+        });
+    </script>
+
+</body>
+</html>
