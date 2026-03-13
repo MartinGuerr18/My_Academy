@@ -5,11 +5,7 @@ import re
 DOMINIO_VALIDO = 'itses.edu.mx'
 
 def detectar_rol(email):
-    """
-    Detecta el rol basándose en el patrón del correo institucional.
-    Alumno:  tiene números en la parte local → l.tegm040521@itses.edu.mx
-    Docente: solo letras y puntos           → lizeth.abril@itses.edu.mx
-    """
+   
     local = email.split('@')[0]  # parte antes del @
     if re.search(r'\d', local):  # si tiene al menos un número
         return 'alumno'

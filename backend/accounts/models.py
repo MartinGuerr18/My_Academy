@@ -15,5 +15,4 @@ class User(AbstractUser):
 
     def __str__(self):
         # Lo que se muestra cuando imprimes un User
-        # Equivalente a toString() en TypeScript
         return f"{self.username} ({self.rol})"

@@ -31,3 +31,15 @@ docker-compose exec web python manage.py migrate
 - `main` → código estable
 - `dev` → integración
 - `feature/tu-nombre` → desarrollo individual
+
+
+## Para Marco
+SuperUsuario:
+
+MyAcademy
+
+email:
+l.tegm040521@itses.edu.mx
+
+password:
+MyAcademy2
