@@ -1,0 +1,454 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Academy — Novedades</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'DM Sans', sans-serif; box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { background: #f0f0f0; }
+
+        /* TOPBAR */
+        .topbar {
+            background: #2d3a1e;
+            color: #a8c090;
+            font-size: 13px;
+            padding: 8px 20px;
+            letter-spacing: 0.02em;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 28px;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+
+
+        .navbar-brand { display: flex; align-items: center; gap: 12px; }
+        .navbar-brand-text h2 {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1e6b17;
+            letter-spacing: 0.05em;
+        }
+        .navbar-brand-text p { font-size: 11px; color: #6b7280; }
+
+        .navbar-right { display: flex; align-items: center; gap: 16px; }
+
+        .btn-notificaciones {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1.5px solid #1e6b17;
+            color: #1e6b17;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 20px;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-notificaciones:hover { background: #f0faf0; }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e5e7eb;
+            border: 2px solid #e5e7eb;
+        }
+
+        /* LAYOUT */
+        .layout { display: flex; min-height: calc(100vh - 110px); }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 300px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 24px 0;
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .sidebar-brand-text h3 { font-weight: 700; font-size: 0.95rem; color: #1e6b17; }
+        .sidebar-brand-text p { font-size: 11px; color: #6b7280; }
+
+        .sidebar-nav { padding: 16px 0; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: #374151;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .nav-item:hover { background: #f0faf0; color: #1e6b17; }
+
+        .nav-item.active {
+            background: #1e6b17;
+            color: white;
+            border-left: 4px solid #145010;
+        }
+
+        .nav-item.active svg { color: white; }
+
+        .sidebar-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #374151;
+            padding: 16px 24px 8px 24px;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-acceso {
+            display: block;
+            margin: 8px 24px;
+            background: #1e6b17;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-acceso:hover { background: #145010; }
+
+        /* MAIN CONTENT */
+        .main-content { flex: 1; padding: 32px 40px; overflow-y: auto; }
+
+        .page-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        /* TARJETAS DE NOVEDAD */
+        .novedad-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            transition: box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .novedad-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+        /* Imagen de fondo decorativa del búho */
+        .novedad-card .bg-owl {
+            position: absolute;
+            right: 180px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            opacity: 0.08;
+            pointer-events: none;
+        }
+
+        .novedad-info { flex: 1; z-index: 1; }
+
+        .novedad-categoria {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 4px;
+        }
+
+        .novedad-titulo {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+
+        .novedad-descripcion {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .novedad-meta {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 8px;
+        }
+
+        .btn-ver-mas {
+            background: #1e6b17;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 24px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: background 0.2s;
+            z-index: 1;
+        }
+
+        .btn-ver-mas:hover { background: #145010; }
+
+        /* Sin novedades */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state p { font-size: 16px; margin-top: 12px; }
+    </style>
+</head>
+<body>
+
+    <!-- Barra superior -->
+    <div class="topbar">Novedades</div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <!-- Logo SVG navbar -->
+            <div style="display:flex; align-items:center; gap:10px;">
+                <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" stroke="#2d7a22" stroke-width="3" fill="none"/>
+                    <ellipse cx="50" cy="55" rx="22" ry="24" fill="#2d7a22"/>
+                    <ellipse cx="50" cy="62" rx="13" ry="14" fill="#3a9e30" opacity="0.5"/>
+                    <polygon points="36,38 39,26 45,38" fill="#1e6b17"/>
+                    <polygon points="55,38 61,26 64,38" fill="#1e6b17"/>
+                    <circle cx="41" cy="50" r="7" fill="white"/>
+                    <circle cx="59" cy="50" r="7" fill="white"/>
+                    <circle cx="41" cy="50" r="4" fill="#1e6b17"/>
+                    <circle cx="59" cy="50" r="4" fill="#1e6b17"/>
+                    <circle cx="42.5" cy="48.5" r="1.5" fill="white"/>
+                    <circle cx="60.5" cy="48.5" r="1.5" fill="white"/>
+                    <polygon points="47,56 53,56 50,60" fill="#f5a623"/>
+                    <rect x="32" y="74" width="36" height="5" rx="2" fill="#2d7a22"/>
+                    <rect x="35" y="70" width="30" height="5" rx="2" fill="#1e6b17"/>
+                    <rect x="44" y="62" width="12" height="8" rx="1" fill="#1a5c14"/>
+                    <line x1="50" y1="62" x2="50" y2="70" stroke="#2d7a22" stroke-width="1"/>
+                </svg>
+                <div>
+                    <div style="font-weight:700; font-size:14px; color:#1e6b17; letter-spacing:0.08em;">MY ACADEMY</div>
+                    <div style="font-size:10px; color:#6b7280;">Digital Learning Hub</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar-right">
+            <button class="btn-notificaciones">
+                🔔 Notificaciones
+            </button>
+            <!-- Avatar del usuario -->
+            <img src="{% static 'img/avatar-default.png' %}" alt="Avatar"
+                 class="avatar"
+                 onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22><circle cx=%2220%22 cy=%2220%22 r=%2220%22 fill=%22%23e5e7eb%22/><text x=%2250%%25%22 y=%2255%%25%22 text-anchor=%22middle%22 fill=%22%236b7280%22 font-size=%2216%22>👤</text></svg>'">
+            <!-- Menú desplegable del usuario -->
+        <div style="position:relative;">
+                <button onclick="toggleMenu()" style="background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:6px; color:#374151; font-size:14px; font-weight:500; padding:4px 8px; border-radius:6px; transition: background 0.2s;"
+                    onmouseover="this.style.background='#f3f4f6'"
+                    onmouseout="this.style.background='none'">
+                    <span>{{ request.user.get_full_name|default:request.user.username }}</span>
+                    <span>▾</span>
+                </button>
+
+        <!-- Dropdown -->
+        <div id="userMenu" style="display:none; position:absolute; right:0; top:calc(100% + 8px); background:white; border:1.5px solid #e5e7eb; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.10); min-width:180px; z-index:100; overflow:hidden;">
+
+        <!-- Info del usuario -->
+        <div style="padding:12px 16px; border-bottom:1px solid #e5e7eb;">
+            <div style="font-weight:600; font-size:14px; color:#1a1a1a;">{{ request.user.get_full_name|default:request.user.username }}</div>
+            <div style="font-size:12px; color:#6b7280; margin-top:2px;">{{ request.user.email }}</div>
+            <div style="font-size:11px; color:#1e6b17; font-weight:600; margin-top:2px; text-transform:capitalize;">{{ request.user.rol }}</div>
+        </div>
+
+            <!-- Opciones -->
+            <a href="#" style="display:flex; align-items:center; gap:10px; padding:10px 16px; color:#374151; font-size:14px; text-decoration:none; transition:background 0.15s;"
+               onmouseover="this.style.background='#f9fafb'"
+               onmouseout="this.style.background='none'">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                </svg>
+                Mi perfil
+            </a>
+
+            <a href="{% url 'logout' %}" style="display:flex; align-items:center; gap:10px; padding:10px 16px; color:#dc2626; font-size:14px; text-decoration:none; transition:background 0.15s;"
+               onmouseover="this.style.background='#fef2f2'"
+               onmouseout="this.style.background='none'">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/>
+                </svg>
+                Cerrar sesión
+            </a>
+
+        </div>
+        </div>
+        </div>
+    </nav>
+
+    <!-- Layout principal -->
+    <div class="layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <!-- Logo SVG sidebar -->
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <svg width="44" height="44" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="48" stroke="#2d7a22" stroke-width="3" fill="none"/>
+                        <ellipse cx="50" cy="55" rx="22" ry="24" fill="#2d7a22"/>
+                        <ellipse cx="50" cy="62" rx="13" ry="14" fill="#3a9e30" opacity="0.5"/>
+                        <polygon points="36,38 39,26 45,38" fill="#1e6b17"/>
+                        <polygon points="55,38 61,26 64,38" fill="#1e6b17"/>
+                        <circle cx="41" cy="50" r="7" fill="white"/>
+                        <circle cx="59" cy="50" r="7" fill="white"/>
+                        <circle cx="41" cy="50" r="4" fill="#1e6b17"/>
+                        <circle cx="59" cy="50" r="4" fill="#1e6b17"/>
+                        <circle cx="42.5" cy="48.5" r="1.5" fill="white"/>
+                        <circle cx="60.5" cy="48.5" r="1.5" fill="white"/>
+                        <polygon points="47,56 53,56 50,60" fill="#f5a623"/>
+                        <rect x="32" y="74" width="36" height="5" rx="2" fill="#2d7a22"/>
+                        <rect x="35" y="70" width="30" height="5" rx="2" fill="#1e6b17"/>
+                        <rect x="44" y="62" width="12" height="8" rx="1" fill="#1a5c14"/>
+                        <line x1="50" y1="62" x2="50" y2="70" stroke="#2d7a22" stroke-width="1"/>
+                    </svg>
+                    <div>
+                        <div style="font-weight:700; font-size:14px; color:#1e6b17; letter-spacing:0.08em;">MY ACADEMY</div>
+                        <div style="font-size:10px; color:#6b7280;">Digital Learning Hub</div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="{% url 'home' %}" class="nav-item active">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z"/>
+                    </svg>
+                    Novedades
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
+                    </svg>
+                    Reuniones
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
+                    </svg>
+                    Calificaciones
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
+                    </svg>
+                    Materias
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"/>
+                    </svg>
+                    Mi perfil
+                </a>
+
+                <div class="sidebar-section-title">Accesos Rapidos</div>
+                <a href="#" class="btn-acceso">Ver calificaciones</a>
+                <a href="#" class="btn-acceso">Programar Reunion</a>
+            </nav>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1 class="page-title">Novedades Escolares</h1>
+
+            {% if novedades %}
+                {% for novedad in novedades %}
+                <div class="novedad-card">
+                    <img src="{% static 'img/ImgPerfilLogo.png' %}" class="bg-owl" alt="">
+
+                    <div class="novedad-info">
+                        <div class="novedad-categoria">{{ novedad.get_categoria_display }}</div>
+                        <div class="novedad-titulo">{{ novedad.titulo }}</div>
+                        <div class="novedad-descripcion">{{ novedad.descripcion }}</div>
+                        <div class="novedad-meta">
+                            {{ novedad.autor.get_full_name|default:novedad.autor.username }} —
+                            {{ novedad.fecha_publicacion|date:"d \d\e F \d\e Y" }}
+                        </div>
+                    </div>
+
+                    <a href="{% url 'detalle_novedad' novedad.pk %}" class="btn-ver-mas">
+                        Ver Mas
+                    </a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <img src="{% static 'img/MyAcademyWitheLogo.png' %}" alt="" style="width:80px; opacity:0.3;">
+                    <p>No hay novedades disponibles por el momento.</p>
+                </div>
+            {% endif %}
+
+        </main>
+    </div>
+
+
+    <script>
+    function toggleMenu() {
+        const menu = document.getElementById('userMenu');
+        menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Cerrar el menú si se hace click fuera
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('userMenu');
+        if (!e.target.closest('#userMenu') && !e.target.closest('button[onclick="toggleMenu()"]')) {
+            menu.style.display = 'none';
+        }
+    });
+</script>
+
+</body>
+</html>

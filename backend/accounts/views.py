@@ -34,12 +34,6 @@ def logout_view(request):
     logout(request)  # destruye la sesión
     return redirect('login')
 
-from django.contrib.auth.decorators import login_required
-
-@login_required(login_url='login')
-def home_view(request):
-    return render(request, 'accounts/home.html')
-
 from .forms import RegistroForm
 
 def registro_view(request):
