@@ -5,4 +5,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),  # ← nuevo
     path('', include('accounts.urls')),
+    path('', include('novedades.urls')),
 ]

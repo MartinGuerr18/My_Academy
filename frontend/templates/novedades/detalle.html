@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ novedad.titulo }} — My Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'DM Sans', sans-serif; box-sizing: border-box; }
+        body { background: #f0f0f0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 16px; }
+        .card { background: white; border-radius: 12px; padding: 40px; max-width: 700px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .categoria { font-size: 13px; font-weight: 600; color: #6b7280; margin-bottom: 8px; }
+        .titulo { font-family: 'Merriweather', serif; font-size: 1.5rem; color: #1a1a1a; margin-bottom: 16px; }
+        .meta { font-size: 12px; color: #9ca3af; margin-bottom: 24px; }
+        .descripcion { font-size: 15px; color: #374151; line-height: 1.8; }
+        .btn-back { display: inline-block; margin-top: 32px; background: #1e6b17; color: white; font-weight: 600; padding: 10px 24px; border-radius: 6px; text-decoration: none; transition: background 0.2s; }
+        .btn-back:hover { background: #145010; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="categoria">{{ novedad.get_categoria_display }}</div>
+        <h1 class="titulo">{{ novedad.titulo }}</h1>
+        <div class="meta">
+            {{ novedad.autor.get_full_name|default:novedad.autor.username }} —
+            {{ novedad.fecha_publicacion|date:"d \d\e F \d\e Y" }}
+        </div>
+        <div class="descripcion">{{ novedad.descripcion }}</div>
+        <a href="{% url 'home' %}" class="btn-back">← Volver a Novedades</a>
+    </div>
+</body>
+</html>

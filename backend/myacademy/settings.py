@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',       # ← nuevo
     'allauth.socialaccount.providers.google',  # ← nuevo
     'accounts',
+    'novedades',
 ]
 
 MIDDLEWARE = [
