@@ -412,7 +412,7 @@
                     <div class="novedad-info">
                         <div class="novedad-categoria">{{ novedad.get_categoria_display }}</div>
                         <div class="novedad-titulo">{{ novedad.titulo }}</div>
-                        <div class="novedad-descripcion">{{ novedad.descripcion }}</div>
+                        <div class="novedad-descripcion">{{ novedad.descripcion|truncatechars:150 }}</div>
                         <div class="novedad-meta">
                             {{ novedad.autor.get_full_name|default:novedad.autor.username }} —
                             {{ novedad.fecha_publicacion|date:"d \d\e F \d\e Y" }}

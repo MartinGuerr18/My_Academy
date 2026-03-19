@@ -55,7 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  # ← nuevo
+    'allauth.account.middleware.AccountMiddleware',  
+    'accounts.middleware.JWTAuthMiddleware', # ← nuevo
 ]
 
 ROOT_URLCONF = 'myacademy.urls'
@@ -165,3 +166,18 @@ SOCIALACCOUNT_ADAPTER = 'accounts.adapters.GoogleAdapter'
 LOGIN_REDIRECT_URL = '/home/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
 SOCIALACCOUNT_LOGIN_ON_GET = True  # ← salta la página intermedia
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=24),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'AUTH_COOKIE': 'access_token',
+    'AUTH_COOKIE_SECURE': False,    # True en producción
+    'AUTH_COOKIE_HTTP_ONLY': True,
+    'AUTH_COOKIE_SAMESITE': 'Lax',
+}
+
+SOCIALACCOUNT_AUTO_SIGNUP = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False

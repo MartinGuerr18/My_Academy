@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import User
+from .jwt_utils import generar_token
+from .forms import RegistroForm
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -11,7 +13,6 @@ def login_view(request):
         username_input = request.POST.get('username')
         password = request.POST.get('password')
 
-        # Si el usuario escribió un email, buscamos el username real
         if '@' in username_input:
             try:
                 user_obj = User.objects.get(email=username_input)
@@ -23,7 +24,18 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('home')
+
+            # Generar JWT y guardarlo en cookie HttpOnly
+            token = generar_token(user)
+            response = redirect('home')
+            response.set_cookie(
+                'access_token',
+                token,
+                max_age=86400,      # 24 horas en segundos
+                httponly=True,      # No accesible desde JavaScript
+                samesite='Lax',
+            )
+            return response
         else:
             messages.error(request, 'Usuario o contraseña incorrectos')
 
@@ -31,24 +43,23 @@ def login_view(request):
 
 
 def logout_view(request):
-    logout(request)  # destruye la sesión
-    return redirect('login')
-
-from .forms import RegistroForm
+    logout(request)
+    response = redirect('login')
+    # Eliminar el JWT al cerrar sesión
+    response.delete_cookie('access_token')
+    return response
 
 def registro_view(request):
-    # Si ya está autenticado no necesita registrarse
     if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == 'POST':
         form = RegistroForm(request.POST)
         if form.is_valid():
-            form.save()  # guarda en PostgreSQL con contraseña encriptada
+            form.save()
             messages.success(request, 'Cuenta creada exitosamente. Inicia sesión.')
             return redirect('login')
-        # Si hay errores el form los carga automáticamente
     else:
-        form = RegistroForm()  # GET → formulario vacío
+        form = RegistroForm()
 
     return render(request, 'accounts/registro.html', {'form': form})

@@ -4,8 +4,8 @@ from .models import Novedad
 
 @login_required(login_url='login')
 def home_view(request):
-    # Trae todas las novedades activas — equivalente a un GET /novedades en Angular
-    novedades = Novedad.objects.filter(activa=True)
+    # Últimas 3 novedades activas ordenadas por fecha descendente
+    novedades = Novedad.objects.filter(activa=True).order_by('-fecha_publicacion')[:3]
     return render(request, 'novedades/home.html', {'novedades': novedades})
 
 @login_required(login_url='login')
